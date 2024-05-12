@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- is used to control the viewport, which is the visible area of a web page in a browser.
+       This meta tag sets the width of the viewport to the width of the device's screen and sets the initial scale to 1.
+       This means that the web page will be displayed at 100% width on any device, and the user can zoom in or out as needed.-->
+
+    <!-- including the Bootstrap CSS file in Flask app,
+      to take advantage of the pre-built CSS styles and components that Bootstrap provides.
+      uses a CDN (Content Delivery Network) to load the Bootstrap CSS file. This means that the file is hosted on a remote server,
+      and it can be accessed quickly and easily from anywhere in the world. -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- link to a local css stylesheet defined by developer -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css')}}"/>
+    
+    <!-- if there is a title variable given to the render_template method display it to give a dynamic title for each web page-->
+    {%if title %}
+    <title>Flask Blog - {{title}}</title>
+    {%else%}
+    <title>Flask Blog</title>
+    {%endif%}
+
+  </head>
+
+  <body>
+
+    <header class="site-header">
+
+      <!-- This creates a navigation bar element with the classes "navbar",
+         "navbar-expand-md" (which means the navbar will expand when the screen size is medium or larger),
+         "navbar-dark" (which sets the text color to white),
+         "bg-dark" (which sets the background color to a dark black color),
+         and "fixed-top" (which means the navbar will be fixed to the top of the page).-->
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+
+        <!--Creating a container for content of the navigation as container helps to apply consistent padding and width to the navbar,
+          and it also ensures that the navbar is centered horizontally on the page-->
+        <div class="container">
+
+          <a class="navbar-brand mr-4" href="/">Laila's Flask Blog</a>
+          <!--Left navigation bar -->
+              <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link" href="/about">About</a>
+              </div>
+          <!--Right navigation bar -->
+              <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link" href="/register">Register</a>
+              </div>
+
+        </div>
+
+      </nav>
+    </header>
+    <!--Create Main body of the web page and apply Bootstrap class conatineer to fix padding and size-->
+    <main role="main" class="container">
+      <!--Creating a row at the start of main object-->
+      <div class="row">
+        <!--creating a column of size 8 .... to divide main part to column for flashed message
+        and other part to be a column for the sidebar-->
+        <div class="col-md-8 order-md-1 ">
+          <!--Catching messages and iterate over them to be displayed 
+              flash messages have different categories each has it's alert
+              so using category to display correct alert for each message-->
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {%for category, message in messages%}
+            <div class="alert alert-{{category}}">{{message}}</div>
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+          <!--Block Specific for each template that will inhrate from this template
+          Note: This conent will be diplayed inside the rows and columns defined here-->
+          {% block content %}{% endblock %}
+        </div>
+
+        <!--Creating a column of size 4 to contain sidebar-->
+        <div class="col-md-4 order-md-2">
+          <!--Create a box to diplay sidebar using class content-section to add styles -->
+          <div class="content-section ">
+            <!--add header to sidebar -->
+            <h3>Our Sidebar</h3>
+            <!-- add a paragraph using class text-muted to be diplayed in gray-->
+            <p class='text-muted'>You can put any information here you'd like.
+              <ul class="list-group">
+                <!-- <li> Creates a list item element and style the list item as part of the list group
+                 and with a light background color-->
+                <li class="list-group-item list-group-item-light my-border">Latest Posts</li>
+                <li class="list-group-item list-group-item-light my-border">Announcements</li>
+                <li class="list-group-item list-group-item-light my-border">Calendars</li>
+                <li class="list-group-item list-group-item-light my-border">etc</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  
+
+    <!-- including Bootstrap JavaScript bundle  -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+   integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.16.6/dist/umd/popper.min.js"
+   integrity="sha384-VyFDvgf/OYu3+gWb1uRt4VboJv8Yj7mX+/APf6NfTqvX/Dm9Tj75/xCsTW6gYVG"
+   crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+   integrity="sha384-MrFsm+sodUMSWw+KcQgfbdymkU/+IrjNzI5L06febp/Zdnobx93bgs/pMD14Ehdb"
+   crossorigin="anonymous"></script>
+   
+  </body>
+
+</html>
