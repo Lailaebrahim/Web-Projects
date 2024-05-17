@@ -6,7 +6,7 @@ body {
 
 
 .my-border {
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   border-radius: 5px;
 }
 
@@ -18,8 +18,12 @@ body {
   color: rgb(0, 0, 0);
 }
 
-.btn-margin{
-margin-top: 10px;
+.btn-margin {
+  margin-top: 10px;
+}
+
+.article-title {
+  margin-top: 3rem;
 }
 
 h1,
@@ -50,7 +54,7 @@ h6 {
 .content-section {
   background: #ffffff;
   padding: 10px 20px;
-  border: 1px solid #dddddd;
+  border: 1px solid #000000;
   border-radius: 3px;
   margin-bottom: 20px;
 }
