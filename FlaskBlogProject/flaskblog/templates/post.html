@@ -10,7 +10,7 @@
                         </div>
                         <div class="col-md-10 mr-auto mt-auto">
                             <div class="media-body">
-                                <h3><a class="article-title" href="#">{{ post.author.username }}</a> </h3>
+                                <h3><a class="article-title" href="{{url_for('user_posts', username=post.author.username)}}">{{ post.author.username }}</a> </h3>
                                 <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d')}}</small>
                             </div>
                         </div>
