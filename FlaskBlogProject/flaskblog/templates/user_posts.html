@@ -12,17 +12,17 @@
                         </div>
                         <div class="col-md-10 mr-auto mt-auto">
                             <div class="media-body">
-                                <h3><a class="article-title" href="{{url_for('user_posts', username=post.author.username)}}">{{ post.author.username }}</a> </h3>
+                                <h3><a class="article-title" href="{{url_for('users.user_posts', username=post.author.username)}}">{{ post.author.username }}</a> </h3>
                                 <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d')}}</small>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <h2 class="mt-4"><a class="article-title" href="{{url_for('post', post_id=post.id)}}">{{ post.title }}</a></h2>
+            <h2 class="mt-4"><a class="article-title" href="{{url_for('posts.post', post_id=post.id)}}">{{ post.title }}</a></h2>
             {%if post.content|length > 500%}
                 <p class="article-content truncated-text">{{ post.content | truncate(500, ' ... ') }} 
-                    <a href="{{url_for('post', post_id=post.id)}}" class="read-more btn-text">Continue reading</a>
+                    <a href="{{url_for('posts.post', post_id=post.id)}}" class="read-more btn-text">Continue reading</a>
                 </p>
                 
             {%else%}
@@ -34,9 +34,9 @@
   {%for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1)%}
     {%if page_num%}
         {%if posts.page == page_num%}
-            <a class="btn btn-margin my-border btn-text btn-dark" href="{{url_for('user_posts', username=user.username, page=page_num)}}">{{page_num}}</a>
+            <a class="btn btn-margin my-border btn-text btn-dark" href="{{url_for('users.user_posts', username=user.username, page=page_num)}}">{{page_num}}</a>
         {%else%}
-            <a class="btn btn-margin my-border btn-text btn-light" href="{{url_for('user_posts', username=user.username, page=page_num)}}">{{page_num}}</a>
+            <a class="btn btn-margin my-border btn-text btn-light" href="{{url_for('users.user_posts', username=user.username, page=page_num)}}">{{page_num}}</a>
         {% endif %}
     {%else%}
     ...

@@ -1,6 +1,23 @@
 {% extends "layout.html"%}
 {%block content%}
-  {%for post in posts%}
+
+  <form method="POST" action="">
+    <div class="input-group">
+      {{ form.Search(class="form-control my-border", placeholder="Search", aria_label="Search", aria_describedby="search-addon") }}
+      {{ form.submit(class="btn  my-border", value="Search") }}
+    </div>
+    {% if form.Search.errors %}
+      <div class="invalid-feedback">
+        {% for error in form.Search.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </form>
+
+  {%if posts != [] and posts is not none%}
+    {{ posts|pprint }}
+    {%for post in posts%}
     <article class="media content-section ">
        <div class="media-body">
             <div class="row">
@@ -30,15 +47,10 @@
         </div>
     </article>
   {% endfor %}
-  {%for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1)%}
-    {%if page_num%}
-        {%if posts.page == page_num%}
-            <a class="btn btn-margin my-border btn-text btn-dark" href="{{url_for('main.home', page=page_num)}}">{{page_num}}</a>
-        {%else%}
-            <a class="btn btn-margin my-border btn-text btn-light" href="{{url_for('main.home', page=page_num)}}">{{page_num}}</a>
-        {% endif %}
-    {%else%}
-    ...
-   {% endif %}
-  {% endfor %}
+
+  {%elif posts == []%}
+    <h1> SPONGEBOB </h1>
+
+  {% endif %}
+
 {% endblock content %}
