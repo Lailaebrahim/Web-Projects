@@ -1,9 +1,10 @@
 {% extends "layout.html"%}
 {%block content%}
-
-  <form method="POST" action="">
+  
+  <form method="POST" action="" >
+    {{form.hidden_tag()}}
     <div class="input-group">
-      {{ form.Search(class="form-control my-border", placeholder="Search", aria_label="Search", aria_describedby="search-addon") }}
+      {{ form.Search(class="form-control my-border md-4", placeholder="Search", aria_label="Search", aria_describedby="search-addon") }}
       {{ form.submit(class="btn  my-border", value="Search") }}
     </div>
     {% if form.Search.errors %}
@@ -13,44 +14,58 @@
         {% endfor %}
       </div>
     {% endif %}
+    
   </form>
 
-  {%if posts != [] and posts is not none%}
-    {{ posts|pprint }}
+  {% if posts.total == 0 %}
+    <h1>No Posts Match the Search Keyword...</h1>
+  {%elif posts is none %}
+    <h1>Search for something...</h1>
+  {% else %}
+    <h2>Search Results</h2>
     {%for post in posts%}
-    <article class="media content-section ">
-       <div class="media-body">
-            <div class="row">
-                <div class="col-md-8 ml-auto">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <img class="rounded-circle article-img my-border" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-                        </div>
-                        <div class="col-md-10 mr-auto mt-auto">
-                            <div class="media-body">
-                                <h3><a class="article-title" href="{{url_for('users.user_posts', username=post.author.username)}}">{{ post.author.username }}</a> </h3>
-                                <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d')}}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h2 class="mt-4"><a class="article-title" href="{{url_for('posts.post', post_id=post.id)}}">{{ post.title }}</a></h2>
-            {%if post.content|length > 500%}
-                <p class="article-content truncated-text">{{ post.content | truncate(500, ' ... ') }} 
-                    <a href="{{url_for('posts.post', post_id=post.id)}}" class="read-more btn-text">Continue reading</a>
-                </p>
-                
-            {%else%}
-                <p class="article-content">{{ post.content }}</p>
-            {%endif%}        
-        </div>
-    </article>
-  {% endfor %}
+      <article class="media content-section  mt-4 ">
+        <div class="media-body">
+              <div class="row">
+                  <div class="col-md-8 ml-auto">
+                      <div class="row">
+                          <div class="col-md-2">
+                              <img class="rounded-circle article-img my-border" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+                          </div>
+                          <div class="col-md-10 mr-auto mt-auto">
+                              <div class="media-body">
+                                  <h3><a class="article-title" href="{{url_for('users.user_posts', username=post.author.username)}}">{{ post.author.username }}</a> </h3>
+                                  <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d')}}</small>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <h2 class="mt-4"><a class="article-title" href="{{url_for('posts.post', post_id=post.id)}}">{{ post.title }}</a></h2>
+              {%if post.content|length > 500%}
+                  <p class="article-content truncated-text">{{ post.content | truncate(500, ' ... ') }} 
+                      <a href="{{url_for('posts.post', post_id=post.id)}}" class="read-more btn-text">Continue reading</a>
+                  </p>
+                  
+              {%else%}
+                  <p class="article-content">{{ post.content }}</p>
+              {%endif%}        
+          </div>
+      </article>
+    {% endfor %}
+  
+    {%for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1)%}
+    {%if page_num%}
+        {%if posts.page == page_num%}
+            <a class="btn btn-margin my-border btn-text btn-dark" href="{{url_for('main.search', keyword=keyword, page=page_num)}}">{{page_num}}</a>
+        {%else%}
+            <a class="btn btn-margin my-border btn-text btn-light" href="{{url_for('main.search', keyword=keyword, page=page_num)}}">{{page_num}}</a>
+        {% endif %}
+    {%else%}
+    ...
+    {% endif %}
+    {% endfor %}
 
-  {%elif posts == []%}
-    <h1> SPONGEBOB </h1>
-
-  {% endif %}
+{% endif %}
 
 {% endblock content %}

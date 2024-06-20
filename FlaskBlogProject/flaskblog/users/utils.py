@@ -23,7 +23,7 @@ def savr_pic(form_profile_pic):
     i = Image.open(form_profile_pic)
     i.thumbnail(input_size)
     i.save(pic_path)
-    if current_user.image_file != None:
+    if current_user.image_file != None and current_user.image_file!= 'default.jpg':
         # deleting the old image from the static folder
         os.remove(os.path.join(current_app
                                .root_path, 'static/profile_pics', current_user.image_file))
