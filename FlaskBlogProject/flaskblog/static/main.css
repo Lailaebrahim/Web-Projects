@@ -25,6 +25,10 @@ body {
   margin-top: 10px;
 }
 
+.input-group-append {
+  cursor: pointer;
+}
+
 .article-title {
   margin-top: 3rem;
 }
@@ -104,4 +108,15 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+
+input[type="datetime-local"] {
+  width: 300px;
+  /* increase width */
+  height: 40px;
+  /* increase height */
+  font-size: 18px;
+    /* increase font size */
+  padding: 10px 10px;
+    
 }

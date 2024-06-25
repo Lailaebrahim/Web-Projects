@@ -2,12 +2,12 @@
 {% block content %}
 
     <div class="content-section">
-        <form method="POST" action="">
+        <form method="POST" action="" id="main-form">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">{{legend}}</legend>
                 <div class="form-group">
-                    {{ form.title.label(class="form-control-label") }}
+                    {{ form.title.label(class="form-control-label", id="title") }}
                     {% if form.title.errors %}
                         {{ form.title(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
@@ -16,11 +16,11 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.title(class="form-control form-control-lg  my-border") }}
+                        {{ form.title(class="form-control form-control-lg  my-border", id="title") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    {{ form.content.label(class="form-control-label") }}
+                    {{ form.content.label(class="form-control-label", id="content") }}
                     {% if form.content.errors %}
                         {{ form.content(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
@@ -29,17 +29,45 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.content(class="form-control form-control-lg my-border") }}
+                        {{ form.content(class="form-control form-control-lg my-border", id="content") }}
                     {% endif %}
                 </div>
 
             </fieldset>
 
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info  btn-margin my-border btn-text btn-light") }}
+                {{ form.submit(class="btn btn-outline-info btn-margin my-border btn-text btn-light") }}
+                <a role="button" class="btn btn-outline-info btn-margin my-border btn-text btn-light" data-toggle="modal" data-target="#myModal">Schedule Post</a>
+            </div>
+
+            <!-- Modal to create a pop up when the user press on schdule post button to diplay a data picker-->
+            <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="myModalLabel">Schedule Post</h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Datetime Picker -->
+                            <form id="schedule-form">
+                                <div class="form-group">
+                                    <div class="input-group" id="datetimepicker">
+                                        <input type="datetime-local" class="my-border">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>    
+                        <div class="modal-footer">
+                            <a class="btn btn-outline-info btn-margin my-border btn-text btn-light" role="button" name="schedule-btn" id="schedule-btn">Schedule Post</a>
+                            <button class="btn btn-outline-info btn-margin my-border btn-text btn-light" data-dismiss="modal" aria-hidden="true">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </form>
     </div>
-    
+    <script src="{{ url_for('static', filename='scripts/schedule_post.js') }}"></script>
+
 {%endblock content%}

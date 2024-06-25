@@ -1,6 +1,6 @@
 from flask import Flask
 from flaskblog.config import configuration
-from flaskblog import db, bcrypt, login_manager, mail
+from flaskblog import db, bcrypt, login_manager, mail, scheduler
 
 
 def create_app(config_class=configuration):
@@ -11,6 +11,9 @@ def create_app(config_class=configuration):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+    scheduler.init_app(app)
+    
+    scheduler.start()
 
     from flaskblog.users.routes import users
     from flaskblog.posts.routes import posts

@@ -45,10 +45,11 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False,
-                            default=datetime.utcnow)
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow())
+    date_scheduled = db.Column(db.DateTime, nullable=True,
+                               default = None)
     content = db.Column(db.Text, nullable=False)
-    # lower case 'u' as we are referencing the actual user table in the d
+    # lower case 'u' as we are referencing the actual user table in the db
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
