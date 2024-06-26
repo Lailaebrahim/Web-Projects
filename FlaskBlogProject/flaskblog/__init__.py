@@ -24,4 +24,5 @@ login_manager.login_message_category = 'info'
 # create an instance of the mail object which is the interface to the smtp client provided by flask_mail
 mail = Mail()
 
+# create an instance of the scheduler object provided by tha flaks-apschedular extension
 scheduler = APScheduler()

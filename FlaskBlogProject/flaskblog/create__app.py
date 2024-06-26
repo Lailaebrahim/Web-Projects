@@ -1,9 +1,10 @@
 from flask import Flask
-from flaskblog.config import configuration
+from flaskblog.config import Configuration
 from flaskblog import db, bcrypt, login_manager, mail, scheduler
+from flaskblog.scheduler import schedule_posts
 
 
-def create_app(config_class=configuration):
+def create_app(config_class=Configuration):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
@@ -12,7 +13,11 @@ def create_app(config_class=configuration):
     login_manager.init_app(app)
     mail.init_app(app)
     scheduler.init_app(app)
-    
+
+    @scheduler.task('interval', id='schedule_posts', seconds=60)
+    def scheduled_task():
+        schedule_posts(app)
+
     scheduler.start()
 
     from flaskblog.users.routes import users
