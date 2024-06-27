@@ -74,7 +74,7 @@
 
       </nav>
     </header>
-    <!--Create Main body of the web page and apply Bootstrap class conatineer to fix padding and size-->
+    <!--Create Main body of the web page and apply Bootstrap class container to fix padding and size-->
     <main role="main" class="container">
       <!--Creating a row at the start of main object-->
       <div class="row">
@@ -82,7 +82,7 @@
         and other part to be a column for the sidebar-->
         <div class="col-md-8 order-md-1 ">
           <!--Catching messages and iterate over them to be displayed 
-              flash messages have different categories each has it's alert
+              flash messages have different categories each has its alert
               so using category to display correct alert for each message-->
           {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -91,27 +91,30 @@
             {% endfor %}
           {% endif %}
           {% endwith %}
-          <!--Block Specific for each template that will inhrate from this template
-          Note: This conent will be diplayed inside the rows and columns defined here-->
+          <!--Block Specific for each template that will inherit from this template
+          Note: This content will be displayed inside the rows and columns defined here-->
           {% block content %}{% endblock %}
         </div>
 
         <!--Creating a column of size 4 to contain sidebar-->
         <div class="col-md-4 order-md-2">
-          <!--Create a box to diplay sidebar using class content-section to add styles -->
+          <!--Create a box to display sidebar using class content-section to add styles -->
           <div class="content-section ">
             <!--add header to sidebar -->
             <h3>Our Sidebar</h3>
-            <!-- add a paragraph using class text-muted to be diplayed in gray-->
-            <p class='text-muted'>You can put any information here you'd like.
-              <ul class="list-group">
-                <!-- <li> Creates a list item element and style the list item as part of the list group
-                 and with a light background color-->
-                <li class="list-group-item list-group-item-light my-border">Latest Posts</li>
-                <li class="list-group-item list-group-item-light my-border">Announcements</li>
-                <li class="list-group-item list-group-item-light my-border">Calendars</li>
-                <li class="list-group-item list-group-item-light my-border">etc</li>
-              </ul>
+                <ul class="list-group">
+                  <!-- <li> Creates a list item element and style the list item as part of the list group
+                   and with a light background color-->
+                  <li class="list-group-item list-group-item-light my-border">
+                    <a class="btn-text" style="text-decoration: none" href="{{url_for('main.home', page=1)}}">Latest Posts</a>
+                  </li>
+                  <li class="list-group-item list-group-item-light my-border">
+                    <a class="btn-text" style="text-decoration: none" href="{{url_for('main.announcements')}}">Announcements</a>
+                  </li>
+                  <li class="list-group-item list-group-item-light my-border">
+                    <a class="btn-text" style="text-decoration: none" href="{{url_for('main.dev')}}">About Developer</a>
+                  </li>
+                </ul>
             </p>
           </div>
         </div>

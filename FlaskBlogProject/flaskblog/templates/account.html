@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-8">
           <div class="media-body">
-            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <h2 class="account-second-heading">{{ current_user.username }}</h2>
             <p class="text-secondary">{{ current_user.email }}</p>
           </div>
         </div>
@@ -22,7 +22,7 @@
   <form method="POST" action="" enctype='multipart/form-data'>
    {{ form.hidden_tag() }}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4" large-font>Account Information</legend>
+      <legend class="border-bottom mb-4">Account Information</legend>
 
       <div class="form-group ">
        {{ form.username.label(class="form-control-label") }} 
@@ -57,7 +57,7 @@
         </div>
           {%if form.profile_pic.errors%}
           {%for error in  form.profile_pic.errors%}
-            <span class="text-danger">{{ error }}</span></br>
+            <span class="text-danger">{{ error }}</span><br>
           {% endfor %}
           {%endif%}
       </div>

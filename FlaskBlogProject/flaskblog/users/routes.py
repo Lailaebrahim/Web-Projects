@@ -21,7 +21,7 @@ def register():
                     email=form.email.data, password=hashed_pwd)
         db.session.add(user)
         db.session.commit()
-        flash(f'Your account has been created successfully! Login to access your acount.', 'success')
+        flash(f'Your account has been created successfully! Login to access your account.', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -43,7 +43,7 @@ def login():
             else:
                 return redirect(url_for('main.home'))
         else:
-            flash(f"Unsuccesfull login! Please check email and password.", 'danger')
+            flash(f"Unsuccessful login! Please check email and password.", 'danger')
     return render_template('login.html', title='login', form=form)
 
 
@@ -56,13 +56,14 @@ def logout():
 
 @users.route("/account", methods=['GET', 'POST'])
 # login_required: This is a decorator that can be used to protect views from being accessed by unauthenticated users.
-# When userslied to a view function it will redirect the user to the login page if they are not currently logged in.
+# When users lied to a view function it will redirect the user to the login page if they are not currently logged in.
 @login_required
 def account():
     form = UpdateAccountForm()
 
     if form.validate_on_submit():
-        # if form is valid and the user submited a profile picture then call saver method which saves the images and create the full path for it
+        # if form is valid and the user submitted a profile picture then call saver method
+        # which saves the images and create the full path for it
         if form.profile_pic.data:
             pic_name = savr_pic(form.profile_pic.data)
             # then save that path to the current user image file field
@@ -75,7 +76,7 @@ def account():
         return redirect(url_for('users.account'))
     # if user pressed on my account on the navigation bar which sends a GET request for that url
     elif request.method == 'GET':
-        # then value of form fields will be the current values of the logged in user
+        # then value of form fields will be the current values of the logged-in user
         form.username.data = current_user.username
         form.email.data = current_user.email
     # rendering the account.html template with the form values and the current user image file path

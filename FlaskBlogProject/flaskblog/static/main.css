@@ -110,6 +110,16 @@ a.article-title:hover {
   font-size: 2.5rem;
 }
 
+.account-second-heading {
+    font-size: 1.25rem;
+}
+
+.quote {
+  font-size: 0.8rem; /* small size */
+  color: #333; /* light color */
+  white-space: nowrap; /* text on one line */
+}
+
 input[type="datetime-local"] {
   width: 300px;
   /* increase width */

@@ -14,7 +14,7 @@ posts = Blueprint('posts', __name__)
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        #the date_posted will be by default equal to current time and date_scheduled will be None
+        # the date_posted will be by default equal to current time and date_scheduled will be None
         post = Post(title=form.title.data,
                     content=form.content.data, user_id=current_user.id)
         db.session.add(post)
@@ -35,7 +35,8 @@ def new_scheduled_post():
     if datetime1 < now:
         return 'False'
     else:
-        #only case when the date_posted may be a time in the future is when a post is scheduled and not to be posted yet 
+        # only case when the date_posted may be a time in the future is when a post is scheduled
+        # and not to be posted yet
         post = Post(title=title,
                     content=content, user_id=current_user.id,
                     date_scheduled=datetime1, date_posted=datetime1)
@@ -46,16 +47,21 @@ def new_scheduled_post():
 
 @posts.route("/post/int:<post_id>")
 def post(post_id):
-    post = Post.query.filter(Post.date_scheduled == None).get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
+    post = Post.query.get_or_404(post_id)
+    if post.date_scheduled is None:
+        return render_template('post.html', title=post.title, post=post)
+    else:
+        return render_template('errors/404.html')
 
 
 @posts.route("/post/int:<post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
-    post = Post.query.filter(Post.date_scheduled == None).get_or_404(post_id)
+    post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)
+    if post.date_scheduled is not None:
+        return render_template('errors/404.html')
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
@@ -73,9 +79,11 @@ def update_post(post_id):
 @posts.route("/post/int:<post_id>/delete", methods=['POST', 'GET'])
 @login_required
 def delete_post(post_id):
-    post = Post.query.filter(Post.date_scheduled == None).get_or_404(post_id)
+    post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)
+    if post.date_scheduled is not None:
+        return render_template('errors/404.html')
     db.session.delete(post)
     db.session.commit()
     flash('Post deleted successfully!', 'success')
